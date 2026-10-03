@@ -1,0 +1,35 @@
+@page
+@model SolarEnergy.Pages.Feedback.IndexModel
+@{
+    ViewData["Title"] = "Feedback";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow p-4">
+            <h2 class="text-success mb-3"><i class="fa-solid fa-comments"></i> Customer Feedback</h2>
+            @if (TempData["Msg"] != null) {
+                <div class="alert alert-success">@TempData["Msg"]</div>
+            }
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-control" name="Name" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Rating</label>
+                    <select class="form-control" name="Rating">
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                        <option value="3">⭐⭐⭐ (3/5)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Feedback Comments</label>
+                    <textarea class="form-control" name="Comment" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</div>

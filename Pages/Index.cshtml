@@ -1,0 +1,88 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row align-items-center py-5">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <span class="badge bg-primary bg-opacity-25 text-primary px-3 py-2 rounded-pill fw-bold mb-3"><i class="fa-solid fa-bolt me-1"></i> Future of Clean Energy</span>
+        <h1 class="display-4 fw-bold text-white mb-3">Power Your Home With Clean & Sustainable Solar Energy</h1>
+        <p class="text-white-50 lead mb-4">Discover high-efficiency solar panels, hybrid inverters, advanced energy storage systems, and government subsidy benefits all in one place.</p>
+        <div class="d-flex gap-3">
+            <a class="btn btn-primary btn-lg rounded-pill px-4 fw-bold shadow" asp-page="/Products/Index"><i class="fa-solid fa-store me-2"></i> Explore Products</a>
+            <a class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold" asp-page="/Enquiry/Index"><i class="fa-solid fa-phone me-2"></i> Get Free Quote</a>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden p-2">
+            <img src="https://images.unsplash.com/photo-1509391365360-e835f377c86a?w=800" class="card-img-top rounded-4 object-fit-cover" style="height: 380px;" alt="Solar Panel" />
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 py-5">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <div class="fs-1 text-warning mb-3"><i class="fa-solid fa-sun"></i></div>
+            <h4 class="fw-bold text-white mb-2">High Efficiency Panels</h4>
+            <p class="text-white-50 mb-0">Monocrystalline and bifacial solar panels designed to generate maximum power even on cloudy days.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <div class="fs-1 text-primary mb-3"><i class="fa-solid fa-battery-full"></i></div>
+            <h4 class="fw-bold text-white mb-2">Advanced Energy Storage</h4>
+            <p class="text-white-50 mb-0">Long-lasting lithium iron phosphate (LiFePO4) and tubular batteries ensuring uninterrupted backup.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <div class="fs-1 text-success mb-3"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+            <h4 class="fw-bold text-white mb-2">Subsidy & Savings</h4>
+            <p class="text-white-50 mb-0">Avail PM Surya Ghar Yojana subsidies and reduce your monthly electricity bills by up to 90%.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us & Statistics -->
+<div class="row align-items-center py-5 my-4 bg-secondary bg-opacity-10 rounded-4 p-4">
+    <div class="col-lg-6">
+        <h2 class="fw-bold text-white mb-3">Why Transition To Solar Energy?</h2>
+        <p class="text-white-50 mb-4">Switching to solar is not just an eco-friendly choice; it's a smart financial decision that protects you from rising grid tariffs and guarantees energy independence for decades.</p>
+        <ul class="list-unstyled text-white-50">
+            <li class="mb-2"><i class="fa-solid fa-check-circle text-success me-2"></i> 25 Years Performance Warranty on Panels</li>
+            <li class="mb-2"><i class="fa-solid fa-check-circle text-success me-2"></i> Seamless Grid-Tie & Hybrid Inverter Integration</li>
+            <li class="mb-2"><i class="fa-solid fa-check-circle text-success me-2"></i> Professional Installation & 24/7 Customer Support</li>
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        <div class="row g-3 text-center">
+            <div class="col-6">
+                <div class="card p-4 border-0 rounded-4 shadow-sm">
+                    <h2 class="fw-bold text-primary mb-1">25+</h2>
+                    <span class="text-white-50 small">Years Lifespan</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card p-4 border-0 rounded-4 shadow-sm">
+                    <h2 class="fw-bold text-success mb-1">90%</h2>
+                    <span class="text-white-50 small">Bill Reduction</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card p-4 border-0 rounded-4 shadow-sm">
+                    <h2 class="fw-bold text-warning mb-1">100%</h2>
+                    <span class="text-white-50 small">Clean Energy</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card p-4 border-0 rounded-4 shadow-sm">
+                    <h2 class="fw-bold text-info mb-1">24/7</h2>
+                    <span class="text-white-50 small">AI Assistance</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

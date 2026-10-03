@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SolarEco System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: #f8fafc; }
+        .navbar { background: rgba(15, 23, 42, 0.9) !important; backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .card { background: #1e293b; border: 1px solid rgba(255,255,255,0.08); color: #f8fafc; }
+        .table { color: #f8fafc; }
+        .table-light { background: #334155 !important; color: #fff !important; }
+        .form-control, .form-select { background: #0f172a; border-color: #334155; color: #fff; }
+        .form-control:focus, .form-select:focus { background: #0f172a; color: #fff; border-color: #6366f1; box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25); }
+        
+        /* Fully Responsive Gemini AI Widget */
+        #chat-widget { position: fixed; bottom: 25px; right: 25px; z-index: 1050; }
+        #chat-box { 
+            width: 380px; 
+            max-width: calc(100vw - 40px); 
+            height: 520px; 
+            max-height: calc(80vh - 80px); 
+            display: none; 
+            flex-direction: column; 
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+        #chat-messages { flex-grow: 1; overflow-y: auto; background: #0f172a; }
+        
+        @@media (max-width: 576px) {
+            #chat-box { width: 100vw; height: 100vh; bottom: 0; right: 0; border-radius: 0; max-height: 100vh; }
+            #chat-widget { bottom: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-indigo fs-4" asp-page="/Index"><i class="fa-solid fa-solar-panel text-warning me-2"></i> SolarEco</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        <li class="nav-item"><a class="nav-link px-3" asp-page="/Index"><i class="fa-solid fa-house me-1 text-primary"></i> Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" asp-page="/Products/Index"><i class="fa-solid fa-boxes-stacked me-1 text-success"></i> Products</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" asp-page="/Enquiry/Index"><i class="fa-solid fa-circle-question me-1 text-info"></i> Enquiry</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" asp-page="/Feedback/Index"><i class="fa-solid fa-comments me-1 text-warning"></i> Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link px-3 text-warning fw-semibold" asp-page="/Admin/Index"><i class="fa-solid fa-lock me-1"></i> Admin</a></li>
+                        <li class="nav-item ms-lg-3 mt-2 mt-lg-0"><a class="btn btn-primary text-white fw-bold px-4 rounded-pill w-100 shadow-sm" asp-page="/Auth/Login"><i class="fa-solid fa-user-circle me-1"></i> Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container my-5 pt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Gemini AI Floating Widget -->
+    <div id="chat-widget">
+        <div id="chat-box" class="card shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-gradient text-white d-flex justify-content-between align-items-center py-3" style="background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);">
+                <span class="fw-bold"><i class="fa-solid fa-wand-magic-sparkles me-2 text-warning"></i> Gemini AI Assistant</span>
+                <button class="btn btn-sm text-white" onclick="toggleChat()"><i class="fa-solid fa-xmark fa-lg"></i></button>
+            </div>
+            <div id="chat-messages" class="card-body p-3 small">
+                <div class="mb-3 text-start">
+                    <span class="badge bg-secondary text-light p-2.5 rounded-3 shadow-sm text-wrap d-inline-block text-start border border-secondary" style="max-width: 85%; line-height: 1.4;">
+                        Namaste! Main **Gemini** hoon. Aapka yeh .NET Core Solar Energy web project chal raha hai. Aap mujhse kisi bhi coding, solar panels, ya features ke baare me pooch sakte hain! ✨
+                    </span>
+                </div>
+            </div>
+            <div class="card-footer p-2 bg-dark border-top border-secondary">
+                <div class="input-group">
+                    <input type="text" id="chat-input" class="form-control rounded-pill border-0 bg-secondary text-white" placeholder="Ask Gemini anything..." onkeypress="handleKey(event)">
+                    <button class="btn btn-primary rounded-pill px-3 ms-2 shadow-sm" onclick="sendAiMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <button id="chat-toggle-btn" class="btn btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center" onclick="toggleChat()" style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); border: none;">
+            <i class="fa-solid fa-wand-magic-sparkles fa-2x text-white"></i>
+        </button>
+    </div>
+
+    <footer class="bg-dark text-white-50 text-center py-4 mt-5 border-top border-secondary">
+        <div class="container">&copy; 2026 - Solar Energy & Devices Management System</div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleChat() {
+            let box = $('#chat-box');
+            if (box.is(':hidden')) { box.css('display', 'flex'); } else { box.hide(); }
+        }
+        function handleKey(e) { if(e.key === 'Enter') sendAiMessage(); }
+        
+        function sendAiMessage() {
+            let input = $('#chat-input');
+            let text = input.val().trim();
+            if(!text) return;
+
+            let chatScroll = document.getElementById('chat-messages');
+            $('#chat-messages').append(`<div class="mb-3 text-end"><span class="badge bg-primary p-2.5 rounded-3 shadow-sm text-wrap d-inline-block text-start" style="max-width: 85%;">${text}</span></div>`);
+            input.val('');
+            chatScroll.scrollTop = chatScroll.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "Yeh sawal bahut accha hai! Is solar project me aap Products, Enquiry, aur Admin Dashboard ko aur bhi behtar tarike se explore kar sakte hain.";
+                let lower = text.toLowerCase();
+
+                if(lower.includes('hello') || lower.includes('hi') || lower.includes('hey') || lower.includes('namaste')) {
+                    reply = "Hello! Main Gemini hoon. Batayein, aaj is project me main aapki kya sahayata karu?";
+                } else if(lower.includes('who are you') || lower.includes('tum kaun ho') || lower.includes('gemini')) {
+                    reply = "Main **Gemini** hoon—aapka AI coding partner! Maine hi aapke is Linux Mint aur .NET Core ke solar web application ko design aur code karne me help ki hai.";
+                } else if(lower.includes('linux') || lower.includes('mint') || lower.includes('ubuntu')) {
+                    reply = "Linux Mint ek behtareen operating system hai! Aapka yeh ASP.NET Core project Linux par `dotnet run` command se smoothly run ho raha hai.";
+                } else if(lower.includes('code') || lower.includes('project') || lower.includes('file')) {
+                    reply = "Yeh Razor Pages par bana hua .NET 8 ka Solar Energy Management system hai, jisme Products, Admin CRUD, Login security aur SQLite/In-Memory DataStore integrated hai.";
+                } else if(lower.includes('admin') || lower.includes('login')) {
+                    reply = "Admin page ab fully secure hai! Aap Navbar me 'Admin' par click karke login credentials ke sath manage inventory aur products edit kar sakte hain.";
+                } else if(lower.includes('panel') || lower.includes('solar')) {
+                    reply = "Solar panels me Monocrystalline aur Polycrystalline options available hain jo high efficiency aur 25 years warranty ke sath aate hain.";
+                } else if(lower.includes('battery') || lower.includes('inverter')) {
+                    reply = "Humne is project me Tubular batteries, Lithium Iron Phosphate (LiFePO4) aur Hybrid Inverters ki listings add ki hain.";
+                } else if(lower.includes('subsidy') || lower.includes('pm surya ghar')) {
+                    reply = "PM Surya Ghar Free Electricity Yojana ke tahat gharo par solar lagane par sarkar dwara subsidy milti hai.";
+                } else if(lower.includes('thank') || lower.includes('thanks') || lower.includes('shukriya')) {
+                    reply = "Aapka swagat hai! Agar coding ya solar project se juda koi aur sawal ho toh bejhijhak poochiye. 😊";
+                }
+
+                $('#chat-messages').append(`<div class="mb-3 text-start"><span class="badge bg-secondary text-light p-2.5 rounded-3 shadow-sm text-wrap d-inline-block text-start border border-secondary" style="max-width: 85%; line-length: 1.4;">${reply}</span></div>`);
+                chatScroll.scrollTop = chatScroll.scrollHeight;
+            }, 600);
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

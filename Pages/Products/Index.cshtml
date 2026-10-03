@@ -1,0 +1,60 @@
+@page
+@model SolarEnergy.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Products Catalog";
+}
+
+<h2 class="mb-4 text-success fw-bold"><i class="fa-solid fa-boxes-stacked"></i> Our Solar Products Catalog (20 Items)</h2>
+<div class="row">
+    @foreach (var item in SolarEnergy.Models.DataStore.Products)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@item.ImageUrl" class="card-img-top" style="height: 180px; object-fit: cover;" alt="@item.Name" onerror="this.src='https://images.unsplash.com/photo-1509391365360-e835f377c86a?w=500'">
+                <div class="card-body d-flex flex-column">
+                    <span class="badge bg-secondary align-self-start mb-2">@item.Category</span>
+                    <h5 class="card-title fs-6">@item.Name</h5>
+                    <p class="card-text small text-muted">@item.Description</p>
+                    <div class="mt-auto">
+                        <span class="fw-bold text-success fs-5">₹@item.Price.ToString("N0")</span>
+                        <a href="#" class="btn btn-outline-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#enquiryModal" onclick="setProduct('@item.Name')">Enquire</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Enquiry Modal -->
+<div class="modal fade" id="enquiryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Product Enquiry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Enquire">
+                    <input type="hidden" id="modalProductName" name="ProductName" />
+                    <div class="mb-3">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-control" name="CustName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone / Email</label>
+                        <input type="text" class="form-control" name="Contact" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" name="Message" rows="3">I am interested in this solar device.</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Send Enquiry</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setProduct(name) { document.getElementById('modalProductName').value = name; }
+</script>
